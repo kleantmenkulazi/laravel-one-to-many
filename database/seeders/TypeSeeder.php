@@ -5,7 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-// models
+// Helpers
+use Illuminate\Support\Facades\Schema;
+
+// Models
 use App\Models\Type;
 
 class TypeSeeder extends Seeder
@@ -15,6 +18,11 @@ class TypeSeeder extends Seeder
      */
     public function run(): void
     {
+
+        Schema::disableForeignKeyConstraints();
+        Type::truncate();
+        Schema::enableForeignKeyConstraints();
+
         $allTypes = [
             'HTML',
             'CSS',

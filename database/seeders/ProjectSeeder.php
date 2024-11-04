@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 // Models
 use App\Models\Project;
+use App\Models\Type;
 
 class ProjectSeeder extends Seeder
 {
@@ -19,6 +20,8 @@ class ProjectSeeder extends Seeder
         $title = fake()->words(5, true);
         $slug = str()->slug($title);
 
+        $randomType= Type::inRandomOrder()->first();
+
         for ($i=0; $i < 10; $i++) { 
             $title = $fake()->sentence();
 
@@ -30,6 +33,8 @@ class ProjectSeeder extends Seeder
                 'client' => fake()->words(2, true),
                 'sector' => fake()->word(),
                 'published' => fake()->boolean(70),
+
+                'type_id' => $randomType->id,
             ]);
         }
     }
