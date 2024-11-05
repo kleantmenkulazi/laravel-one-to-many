@@ -32,11 +32,39 @@
                         <li>
                             Slug: {{ $type->slug }}
                         </li>
+                        <li>
+                            Linked Projects:
+                            @if ($type->projects()->count() >0)
+                            <ul>
+                                @foreach ($type->projects as $projects)
+                                <li>
+                                    <a href="{{ route('admin.projects.show', ['project'=> $poject->id])}}">{{ $project->title }}</a>
+                                </li>
+                                @endforeach
+                            </ul>
+                            @else
+                            xxx
+                            @endif
+                        </li>
                     </ul>
 
+                    <a class="btn btn-outline-primary btn-sm" href="{{ route('admin.types.index') }}">
+                        ▤
+                    </a>
                     <a class="btn btn-outline-warning btn-sm" href="{{ route('admin.types.edit', ['type' => $type->id]) }}">
                         ໒(⊙ᴗ⊙)७✎
                     </a>
+
+                    
+                    <form action="{{ route('admin.types.destroy', ['type'=> $type->id] ) }}" method="POST" class="d-inline-block"
+                        onsubmit="return confirm('Are u sure u want to delete this type? ໒(x‸x)७')"    
+                    >
+                        @csrf
+                        @method('DELETE')
+                            <button class="btn btn-outline-danger btn-sm">
+                                ໒(x‸x)७
+                            </button>
+                    </form>
                 </div>
             </div>
         </div>

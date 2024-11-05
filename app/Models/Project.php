@@ -18,4 +18,8 @@ class Project extends Model
         'published',
         'tyep_id',
     ];
+
+    public function type(){
+        return $table->belongsTo(Type::class);
+    }
 }

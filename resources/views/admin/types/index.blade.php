@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row mb-4">
         <div class="col text-center">
             <a class="btn btn-success" href="{{ route('admin.types.create')}}">
@@ -41,6 +41,7 @@
                                 <tr>
                                     <th scope="row">{{ $type->id }}</th>
                                     <td>{{ $type->title }}</td>
+                                    <td> {{ count($type->projects)}}</td>
                                     <td>
                                         <a class="btn btn-outline-primary btn-sm" href="{{ route('admin.types.show', ['type' => $type->id]) }}">
                                             ໒(⊙ᴗ⊙)७
