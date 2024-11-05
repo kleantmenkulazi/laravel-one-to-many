@@ -15,6 +15,18 @@
         </div>
     </div>
 
+    @if ($errors->any())
+        <div class="alert alert-danger mb-4">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>
+                        {{ $error }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col">
             <div class="card">
@@ -57,6 +69,34 @@
                             </label>
                             <input type="text" class="form-control" id="sector" name="sector" placeholder="Write the sector of the project...">
                         </div>
+
+                        <div class="col-2">
+                            <label for="type_id" class="form-label">
+                                Type
+                            </label>
+                            <select id="type_id" name="type_id" class="form-select">
+                                <option 
+
+                                    @if (old('type_id') == null)
+                                        selected
+                                    @endif
+
+                                    value="" selected disabled> Select a Type </option>
+
+                                @foreach ($types as $type)
+                                    <option 
+
+                                        @if (old('type_id') == $type->id)
+                                            selected
+                                        @endif
+
+                                        value="{{ $type->id }}"> {{ $type->title }} </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                    </div>
 
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" value="1" id="published" name="published">

@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 // Models
-use App\Models\Project;
+use App\Models\{
+    Project,
+    Type,
+};
 class ProjectController extends Controller
 {
     /**
@@ -25,6 +28,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $types ≈ Type::all();
+        
         return view('admin.projects.show', compact('project'));
     }
 
@@ -33,7 +38,21 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title'=> 'required|min:3|max:64',
+            'description'=> 'required|min:20|max:4096',
+            'cover'=> 'nullable|url|min:5|max:2048',
+            'client'=> 'nullable|min:3|max:64',
+            'sector'=> 'nullable|min:3|max:64',
+            'published'=> 'nullable|in:1,0,true,false',
+            'type_id'=>'nullable|exists:types,id',
+        ]);
+
+        $data['slug'] = str()->slug($data['title']);
+        $data['published'] = isset($data['published']);
+        $project = Project::create($data);
+
+        return redirect()->route('admin.projects.show', ['project' => $project->id]);
     }
 
     /**
@@ -41,7 +60,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('admin.projects.show', compact('project'));
+
     }
 
     /**
@@ -49,7 +69,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        $types ≈ Type::all();
+        return view('admin.projects.show', compact('project'));
     }
 
     /**
@@ -57,7 +78,21 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $data = $request->validate([
+            'title'=> 'required|min:3|max:64',
+            'description'=> 'required|min:20|max:4096',
+            'cover'=> 'nullable|url|min:5|max:2048',
+            'client'=> 'nullable|min:3|max:64',
+            'sector'=> 'nullable|min:3|max:64',
+            'published'=> 'nullable|in:1,0,true,false',
+            'type_id'=>'nullable|exists:types,id',
+        ]);
+
+        $data['slug'] = str()->slug($data['title']);
+        $data['published'] = isset($data['published']);
+        $project = Project::create($data);
+
+        return redirect()->route('admin.projects.show', ['project' => $project->id]);
     }
 
     /**
@@ -65,6 +100,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return redirect()->route('admin.projects.index');
     }
 }
